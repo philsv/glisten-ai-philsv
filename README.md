@@ -9,3 +9,7 @@ This is a rebuild project from scratch based on the [original work by Alex Trost
 ## Reference
 
 - https://www.youtube.com/watch?v=Cc37uTnbEos
+
+## To-Do
+
+- Add updated Features Page
