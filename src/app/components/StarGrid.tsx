@@ -4,15 +4,26 @@
 import { useRef } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
+import usePrefersReducedMotion from "@/hooks/usePrefersReducedMotion";
 
 export default function StarGrid() {
   const container = useRef(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
   gsap.registerPlugin(useGSAP);
 
   const grid = [14, 30] as const;
 
   useGSAP(
     () => {
+      if (prefersReducedMotion) {
+        gsap.set(container.current, { opacity: 1 });
+        gsap.set(".star-grid-item", {
+          opacity: 0.2,
+          scale: 1,
+        });
+        return;
+      }
+
       gsap.set(".star-grid-item", {
         opacity: 0,
         transformOrigin: "center",
@@ -25,10 +36,12 @@ export default function StarGrid() {
       // Entrance animation
       tl.to(".star-grid-item", {
         keyframes: [
+          // First keyframe
           {
             opacity: 0,
             duration: 0,
           },
+          // Second keyframe (staggered grow)
           {
             opacity: 0.4,
             rotate: "+=180",
@@ -41,6 +54,7 @@ export default function StarGrid() {
               from: "center",
             },
           },
+          // Third keyframe (shrink down)
           {
             opacity: 0.2,
             rotate: "+=180",
